@@ -4,6 +4,7 @@
 
 #include "Level/TitleLevel.h"
 #include "Level/InGameLevel.h"
+#include "../../Engine/Level/Level.h"
 
 InfiniteStairs::InfiniteStairs()
 {
@@ -12,7 +13,7 @@ InfiniteStairs::InfiniteStairs()
 	RegisterLevel(new InGameLevel());
 
 	// Engine¿« main æ¿ ¡ˆ¡§
-	AddLevel(_levels[Scene_Title]);
+	AddLevel(_levels[Scene_InGame]);
 }
 
 InfiniteStairs::~InfiniteStairs()

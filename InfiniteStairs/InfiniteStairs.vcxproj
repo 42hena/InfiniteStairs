@@ -149,13 +149,19 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\Stair.cpp" />
     <ClCompile Include="Contents\InfiniteStairs.cpp" />
+    <ClCompile Include="Contents\StairGenerator.cpp" />
     <ClCompile Include="Level\InGameLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\Stair.h" />
     <ClInclude Include="Contents\InfiniteStairs.h" />
+    <ClInclude Include="Contents\StairGenerator.h" />
     <ClInclude Include="Level\InGameLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
   </ItemGroup>

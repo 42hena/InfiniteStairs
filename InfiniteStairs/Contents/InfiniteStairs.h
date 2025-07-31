@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include <vector>
+#include "Level/Level.h"
 
 class InfiniteStairs : public Engine
 {
@@ -24,6 +25,7 @@ public:
 
 public:
 	void RegisterLevel(Level* pLevel);
+
 private:
 	std::vector<class Level*> _levels;
 };
