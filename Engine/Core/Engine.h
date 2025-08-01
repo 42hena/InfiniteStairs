@@ -20,6 +20,12 @@ struct EngineSettings
 class Level;
 class ENGINE_API Engine
 {
+	enum Limit
+	{
+		Limit_Width = 50,
+		Limit_Height= 50,
+
+	};
 #pragma region 특수 맴버 함수
 public:
 	Engine();
@@ -47,7 +53,7 @@ public:
 	/* Level 관련 함수*/
 	void AddLevel(Level* newLevel);
 
-	int Widget() const;
+	int Width() const;
 	int Height() const;
 
 #pragma endregion
@@ -60,6 +66,7 @@ private:
 
 	/* Draw 함수 */
 	void Render();
+	void ClearBoard();
 
 	/* 엔진 설정 파일 함수 */
 	void LoadEngineSettings();
@@ -76,6 +83,8 @@ protected:
 	Level* _mainLevel = nullptr;
 	Input _input;
 	EngineSettings _settings;
+
+	char _board[50][50];
 #pragma endregion
 };
 

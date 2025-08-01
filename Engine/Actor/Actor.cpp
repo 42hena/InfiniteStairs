@@ -6,6 +6,7 @@
 #include "Level/Level.h"
 
 #include <iostream>
+#include <string>
 #include <Windows.h>
 
 /*
@@ -47,6 +48,9 @@ void Actor::Tick(float deltaTime)
 
 void Actor::Render()
 {
+	if (_isActive == false || _isExpired == true) {
+		return;
+	}
 	// 커서 위치 값 생성
 	// COORD coord;
 
@@ -69,33 +73,42 @@ void Actor::SetPosition(const Vector2& newPosition)
 	if (_position == newPosition)
 		return;
 	
-	// 좌·우 처리
-	if (newPosition._x < 0 || newPosition._x + _width > Engine::GetInstance().Widget()){
-		return;
-	}
 	// 상·하 처리
-	if (newPosition._y < 0 || newPosition._y - 1 > Engine::GetInstance().Height()) {
+	if (newPosition._y < 0 || newPosition._y + 1 > Engine::GetInstance().Height()) {
+		Utils::SetConsolePosition(_position);
+		std::string s = "";
+		for (int i = 0; i < _width; ++i)
+			s.push_back(' ');
+		std::cout << s;
+		Destroy();
+		_isActive = false;
+		_position = newPosition;
 		return;
 	}
-
-	// 커서 위치 값 생성
-	/*COORD coord;
-	static HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	coord.X = static_cast<short>(_position._x);
-	coord.Y = static_cast<short>(_position._y);
+	// 좌·우 처리
+	if (newPosition._x < 0 || newPosition._x + _width > Engine::GetInstance().Width()){
+		Utils::SetConsolePosition(_position);
+		std::string s = "";
+		for (int i = 0; i < _width; ++i)
+			s.push_back(' ');
+		std::cout << s;
+		_isActive = false;
+		_position = newPosition;
+		return;
+	}
+	_isActive = true;
 	Utils::SetConsolePosition(_position);
-	*/
-
 	Vector2 direction = newPosition - _position;
-	_position._x = direction._x >= 0 ? _position._x : _position._x + _width - 1;
-
-	// 커서 이동
-	Utils::SetConsolePosition(_position);
+	/*_position._x += direction._x >= 0 ? _position._x : _position._x + _width;
+	_position._y--;*/
 
 	// console 창 출력하여 그리기
-	//for (int i = 0 ; i < _width ; ++i)
-	std::cout << " ";
-	
+
+	std::string s = "";
+	for (int i = 0; i < _width; ++i)
+		s.push_back(' ');
+	std::cout << s;
+
 	// 이동하려는 위치로 변경
 	_position = newPosition;
 }
@@ -115,7 +128,7 @@ void Actor::SetOwner(Level* newOwner)
 	_owner = newOwner;
 }
 
-Level* Actor::GetOwner()
+Level* Actor::GetOwner() const
 {
 	return _owner;
 }

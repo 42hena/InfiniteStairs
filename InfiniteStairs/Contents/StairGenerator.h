@@ -14,6 +14,12 @@ public:
 
 	void MoveLastStair(int x, int y);
 
+	inline int StairWidth() const { return _width; }
+	void SetStairWidth(int width) { _width = width; }
+	
+	inline int StairHeight() const { return _height; }
+	void SetStairHeight(int height) { _height = height; }
+
 private:
 	int		_stairCount = 0;
 	Vector2 _lastStairPos;

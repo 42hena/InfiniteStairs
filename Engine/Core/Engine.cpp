@@ -146,7 +146,7 @@ void Engine::AddLevel(Level* newLevel)
 	_mainLevel = newLevel;
 }
 
-int Engine::Widget() const
+int Engine::Width() const
 {
 	return _settings.width;
 }
@@ -204,6 +204,17 @@ void Engine::Render()
 	if (_mainLevel != nullptr)
 	{
 		_mainLevel->Render();
+	}
+}
+
+void Engine::ClearBoard()
+{
+	for (int i = 0; i < Limit_Height; ++i)
+	{
+		for (int j = 0; j < Limit_Width; ++j)
+		{
+			_board[i][j] = ' ';
+		}
 	}
 }
 

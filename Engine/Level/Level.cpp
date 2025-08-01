@@ -62,34 +62,40 @@ void Level::Render()
 
 	// RenderPass
 	for (Actor* const actor : _actors) {
-		Actor* searchActor = nullptr;
-		for (Actor* const otherActors : _actors)
-		{
-			// 액터 처리 여부 확인
-			if (actor->_isActive == false || actor->_isExpired == true) {
-				continue;
-			}
-
-			if (actor == otherActors) { 
-				continue; 
-			}
-
-			if (actor->Position() == otherActors->Position())
-			{
-				if (actor->_sortingOrder < otherActors->_sortingOrder)
-				{
-					searchActor = otherActors;
-					break;
-				}
-			}
+		// 액터 처리 여부 확인
+		if (actor->_isActive == false || actor->_isExpired == true) {
+			continue;
 		}
-
-		if (searchActor != nullptr) { 
-			continue; 
-		}
-
 		actor->Render();
 	}
+	//	Actor* searchActor = nullptr;
+	//	for (Actor* const otherActors : _actors)
+	//	{
+	//		// 액터 처리 여부 확인
+	//		if (actor->_isActive == false || actor->_isExpired == true) {
+	//			continue;
+	//		}
+
+	//		if (actor == otherActors) { 
+	//			continue; 
+	//		}
+
+	//		if (actor->Position() == otherActors->Position())
+	//		{
+	//			if (actor->_sortingOrder < otherActors->_sortingOrder)
+	//			{
+	//				searchActor = otherActors;
+	//				break;
+	//			}
+	//		}
+	//	}
+
+	//	if (searchActor != nullptr) { 
+	//		continue; 
+	//	}
+
+	//	actor->Render();
+	//}
 }
 
 /*
@@ -132,9 +138,7 @@ void Level::ProcessAddAndDestroyActors()
 
 	for (Actor* pActor : _addRequestActors)
 	{
-		// 소유권 설정
 		pActor->SetOwner(this);
-		// TODO : _actors.emplace_back(std::move(pActor));
 		_actors.emplace_back(pActor);
 	}
 	_addRequestActors.clear();

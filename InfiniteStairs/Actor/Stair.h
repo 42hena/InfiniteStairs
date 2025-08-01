@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Actor/Actor.h"
+#include "Contents/Collider.h"
 
 //void SetPosition(Actor* pActor, int x, int y);
 
@@ -12,12 +13,14 @@ public:
 	~Stair();
 
 public:
+	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 	virtual void Render() override;
 
-
-	void OnMoved();
+public:
+	Collider* GetCollider() const { return _pCollider; }
+	bool IsColliding(Collider* pOther) const;
 
 public:
-	
+	Collider* _pCollider = nullptr;
 };

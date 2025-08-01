@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Stair.cpp" />
+    <ClCompile Include="Contents\Collider.cpp" />
     <ClCompile Include="Contents\InfiniteStairs.cpp" />
     <ClCompile Include="Contents\StairGenerator.cpp" />
     <ClCompile Include="Level\InGameLevel.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Stair.h" />
+    <ClInclude Include="Contents\Collider.h" />
     <ClInclude Include="Contents\InfiniteStairs.h" />
     <ClInclude Include="Contents\StairGenerator.h" />
     <ClInclude Include="Level\InGameLevel.h" />

@@ -36,7 +36,7 @@ public:
 	
 	/* Owner 관련 함수 */
 	void	SetOwner(Level* newOwner);
-	Level*	GetOwner();
+	virtual Level*	GetOwner() const;
 
 	/* 종료 함수 */
 	void QuitGame();
@@ -50,7 +50,9 @@ public:
 	inline bool HasBeginPlay()	const { return _hasBeginPlay; }
 	inline int	Width()			const { return _width; }
 	inline int	Height()			const { return _height; }
-
+	inline bool	Active()			const { return _isActive; }
+	inline bool	Expired()			const { return _isExpired; }
+	void SetActive(bool flag) { _isActive = flag; }
 #pragma endregion
 
 #pragma region 멤버 변수
