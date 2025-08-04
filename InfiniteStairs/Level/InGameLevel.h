@@ -3,6 +3,7 @@
 #include "Level/Level.h"
 #include "Contents/StairGenerator.h"
 
+class Player;
 class InGameLevel : public Level
 {
 	RTTI_DECLARATIONS(InGameLevel, Level)
@@ -16,8 +17,11 @@ public:
 
 	void OnMovedStairs(int x, int y);
 	void OnCreateStairs(int x, int y);
-	void OnPressDown() { _gameFlag = true; }
-	//void ChangePosition(int x, int y);
-	bool _gameFlag = false;
+	void OnPressDown() { _keyPressFlag = true; }
+	void OnResetTimer();
+
+	bool IsColliding(Player *pPlayer);
+
+	bool _keyPressFlag = false;
 	StairGenerator _generator;
 };
