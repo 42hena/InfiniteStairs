@@ -2,6 +2,7 @@
 
 #include "Math/Vector2.h"
 
+class Character;
 class StairGenerator
 {
 public:
@@ -20,9 +21,12 @@ public:
 	inline int StairHeight() const { return _height; }
 	void SetStairHeight(int height) { _height = height; }
 
+	void SetStairImage(Character* pImage);
+
 private:
 	int		_stairCount = 0;
 	Vector2 _lastStairPos;
 	int _width = 3;
 	int _height = 1;
+	Character* _pStairImage = nullptr;
 };
