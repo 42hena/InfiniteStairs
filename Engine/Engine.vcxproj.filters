@@ -6,6 +6,7 @@
     <ClCompile Include="Actor\Actor.cpp" />
     <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Core\Input.cpp" />
+    <ClCompile Include="Render\ScreenBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Engine.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Core\Types.h" />
     <ClInclude Include="Math\Color.h" />
+    <ClInclude Include="Render\ScreenBuffer.h" />
   </ItemGroup>
 </Project>
