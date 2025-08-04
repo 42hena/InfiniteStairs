@@ -17,14 +17,14 @@ struct EngineSettings
 	float frameRate = 0.0f;
 };
 
+class Vector2;
 class Level;
+class ScreenBuffer;
 class ENGINE_API Engine
 {
 	enum Limit
 	{
-		Limit_Width = 50,
-		Limit_Height= 50,
-
+		Limit_ScreenCount = 2,
 	};
 #pragma region 특수 맴버 함수
 public:
@@ -55,6 +55,7 @@ public:
 
 	int Width() const;
 	int Height() const;
+	void Draw(const wchar_t* str, const Vector2& rPosition);
 
 #pragma endregion
 
@@ -84,7 +85,8 @@ protected:
 	Input _input;
 	EngineSettings _settings;
 
-	char _board[50][50];
+	ScreenBuffer*	_pScreenBuffers[Limit_ScreenCount];
+	bool			_screenOrder = false;
 #pragma endregion
 };
 

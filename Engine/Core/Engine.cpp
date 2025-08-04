@@ -1,10 +1,13 @@
 #include "Engine.h"
+#include "Input.h"
 
 #include "Level/Level.h"
 
 #include "Utils/Utils.h"
 
-#include "Input.h"
+#include "Math/Vector2.h"
+
+#include "Render/ScreenBuffer.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -53,6 +56,11 @@ Engine::Engine()
 		GetStdHandle(STD_OUTPUT_HANDLE),
 		FOREGROUND_GREEN
 	);*/
+
+	// 더블 버퍼링 용 버퍼 2개 생성.
+	for (int i = 0; i < Limit_ScreenCount; ++i) {
+		_pScreenBuffers[i] = new ScreenBuffer(ScreenBuffer::CreateConsoleBuffer());
+	}
 
 	LoadEngineSettings();
 }
@@ -103,9 +111,10 @@ void Engine::Run()
 			Tick(deltaTime);
 			Render();
 		
-			char title[50] = {};
-			sprintf_s(title, 50, "FPS: %f", (1.0f) / deltaTime);
-			SetConsoleTitleA(title);
+			wchar_t title[50] = {};
+			swprintf_s(title, 50, L"FPS: %f", (1.0f) / deltaTime);
+			//wsprintf_s()
+			SetConsoleTitleW(title);
 
 			// 시간 업데이트
 			previousTime = currentTime;
@@ -116,6 +125,7 @@ void Engine::Run()
 			// 이전 프레임에 추가 및 삭제 요청된 액터 처리
 			if (_mainLevel != nullptr) {
 				_mainLevel->ProcessAddAndDestroyActors();
+				_mainLevel->ProcessUIAddAndDestroyActors();
 			}
 		}
 	}
@@ -127,7 +137,7 @@ void Engine::Run()
 void Engine::CleanUp()
 {
 	SafeDelete(_mainLevel);
-	std::cout << "Engine 삭제\n";
+	std::wcout << "Engine 삭제\n";
 }
 
 void Engine::Quit()
@@ -162,38 +172,16 @@ int Engine::Height() const
 
 void Engine::BeginPlay()
 {
-	if (_mainLevel != nullptr)
-	{
+	if (_mainLevel != nullptr) {
 		_mainLevel->BeginPlay();
 	}
 }
 
 void Engine::Tick(float deltaTime)
 {
-	/*if (GetKeyDown('A'))
-	{
-		std::cout << "GetKeyDown('a')\n";
-	}
-	if (GetKey('A'))
-	{
-		std::cout << "GetKey('a')\n";
-	}
-
-	if (GetKeyUp('A'))
-	{
-		std::cout << "GetKeyUp('a')\n";
-	}*/
-	
-	if (_mainLevel != nullptr)
-	{
+	if (_mainLevel != nullptr) {
 		_mainLevel->Tick(deltaTime);
 	}
-
-	/*if (GetKeyDown(VK_ESCAPE))
-	{
-		Quit();
-	}*/
-	//std::cout << "DeltaTime: " << deltaTime << ", FPS: " << (1.0f / deltaTime) << "\n";
 }
 
 void Engine::Render()
@@ -203,19 +191,32 @@ void Engine::Render()
 
 	if (_mainLevel != nullptr)
 	{
+		
+		ClearBoard();
+		
+		// 더블 버퍼 순서 변경.
+		_screenOrder = !_screenOrder;
+		
+		// 스크린 버퍼에 쓰기.
 		_mainLevel->Render();
+
+		// 버퍼 출력
+		_pScreenBuffers[_screenOrder]->Render();
+
+		SetConsoleActiveScreenBuffer(_pScreenBuffers[_screenOrder]->ConsoleHandle());
 	}
 }
 
 void Engine::ClearBoard()
 {
-	for (int i = 0; i < Limit_Height; ++i)
-	{
-		for (int j = 0; j < Limit_Width; ++j)
-		{
-			_board[i][j] = ' ';
-		}
-	}
+	void * pSB = _pScreenBuffers[_screenOrder]->GetScreenBuffer();
+	void* pSS = _pScreenBuffers[_screenOrder]->GetSortBuffer();
+	int width = _pScreenBuffers[_screenOrder]->ScreenWidth();
+	int height = _pScreenBuffers[_screenOrder]->ScreenHeight();
+	memset(pSB, 0, width * height * sizeof(CHAR_INFO));
+	memset(pSS, 0, width * height);
+
+	_pScreenBuffers[_screenOrder]->Render();
 }
 
 void Engine::LoadEngineSettings()
@@ -274,4 +275,9 @@ void Engine::LoadEngineSettings()
 	SafeDeleteArray(pBuffer);
 
 	fclose(pFile);
+}
+
+void Engine::Draw(const wchar_t* str, const Vector2& rPosition)
+{
+	_pScreenBuffers[_screenOrder]->DrawBuffer(str, rPosition);
 }
