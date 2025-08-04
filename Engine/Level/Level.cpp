@@ -53,6 +53,14 @@ void Level::Tick(float deltaTime)
 		}
 		actor->Tick(deltaTime);
 	}
+
+	for (Actor* const actor : _UIActors) {
+		// 액터 처리 여부 확인
+		if (actor->_isActive == false || actor->_isExpired == true) {
+			continue;
+		}
+		actor->Tick(deltaTime);
+	}
 }
 
 void Level::Render()
@@ -68,34 +76,13 @@ void Level::Render()
 		}
 		actor->Render();
 	}
-	//	Actor* searchActor = nullptr;
-	//	for (Actor* const otherActors : _actors)
-	//	{
-	//		// 액터 처리 여부 확인
-	//		if (actor->_isActive == false || actor->_isExpired == true) {
-	//			continue;
-	//		}
 
-	//		if (actor == otherActors) { 
-	//			continue; 
-	//		}
-
-	//		if (actor->Position() == otherActors->Position())
-	//		{
-	//			if (actor->_sortingOrder < otherActors->_sortingOrder)
-	//			{
-	//				searchActor = otherActors;
-	//				break;
-	//			}
-	//		}
-	//	}
-
-	//	if (searchActor != nullptr) { 
-	//		continue; 
-	//	}
-
-	//	actor->Render();
-	//}
+	for (Actor* const actor : _UIActors) {
+		if (actor->_isActive == false || actor->_isExpired == true) {
+			continue;
+		}
+		actor->Render();
+	}
 }
 
 /*
@@ -130,7 +117,7 @@ void Level::ProcessAddAndDestroyActors()
 		Utils::SetConsolePosition(pActor->Position());
 
 		for (int i = 0 ; i < pActor->Width() ; ++i) { 
-			std::cout << " ";
+			std::wcout << " ";
 		}
 		SafeDelete(pActor);
 	}
@@ -142,6 +129,48 @@ void Level::ProcessAddAndDestroyActors()
 		_actors.emplace_back(pActor);
 	}
 	_addRequestActors.clear();
+}
+
+void Level::AddUIActor(Actor* newActor)
+{
+	// 객체 추가 요청
+	_addRequestUIActors.emplace_back(newActor);
+}
+
+void Level::DestroyUIActor(Actor* destroyedActor)
+{
+	// 객체 추가 요청
+	_destroyRequestUIActors.emplace_back(destroyedActor);
+}
+
+void Level::ProcessUIAddAndDestroyActors()
+{
+	for (auto iter = _UIActors.begin(); iter != _UIActors.end(); /* iter 증가 없음 */) {
+		// case : 만료된 actor
+		if ((*iter)->_isExpired)
+		{
+			iter = _UIActors.erase(iter);
+			continue;
+		}
+		++iter;
+	}
+
+	for (auto*& pActor : _destroyRequestUIActors) {
+		Utils::SetConsolePosition(pActor->Position());
+
+		for (int i = 0; i < pActor->Width(); ++i) {
+			std::cout << " ";
+		}
+		SafeDelete(pActor);
+	}
+	_destroyRequestUIActors.clear();
+
+	for (Actor* pActor : _addRequestUIActors)
+	{
+		pActor->SetOwner(this);
+		_UIActors.emplace_back(pActor);
+	}
+	_addRequestUIActors.clear();
 }
 
 /*

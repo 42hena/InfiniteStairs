@@ -31,6 +31,11 @@ public:
 	void AddActor(Actor* newActor);	// Level에서 돌아다닐 객체 생성 함수
 	void DestroyActor(Actor* destroyedActor);
 	void ProcessAddAndDestroyActors();
+	
+	
+	void AddUIActor(Actor* newActor);	// Level에서 돌아다닐 객체 생성 함수
+	void DestroyUIActor(Actor* destroyedActor);
+	void ProcessUIAddAndDestroyActors();
 
 #pragma endregion
 
@@ -44,6 +49,10 @@ protected:
 	std::vector<Actor*> _actors;
 	std::vector<Actor*> _addRequestActors;
 	std::vector<Actor*> _destroyRequestActors;
+
+	std::vector<Actor*> _UIActors;
+	std::vector<Actor*> _addRequestUIActors;
+	std::vector<Actor*> _destroyRequestUIActors;
 #pragma endregion
 };
 
