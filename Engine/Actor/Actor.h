@@ -14,7 +14,7 @@ class ENGINE_API Actor : public RTTI
 
 #pragma region 특수 맴버 함수
 public:
-	Actor(const char* pImage = "", Color color = Color::Color_White, const Vector2& position = Vector2::Zero);
+	Actor(const wchar_t* pImage = L"", Color color = Color::Color_White, const Vector2& position = Vector2::Zero);
 	virtual ~Actor();
 #pragma endregion
 
@@ -37,7 +37,7 @@ public:
 	/* Owner 관련 함수 */
 	void	SetOwner(Level* newOwner);
 	virtual Level*	GetOwner() const;
-
+	
 	/* 종료 함수 */
 	void QuitGame();
 
@@ -48,8 +48,10 @@ public:
 	*		인라인 함수
 	*/
 	inline bool HasBeginPlay()	const { return _hasBeginPlay; }
-	inline int	Width()			const { return _width; }
-	inline int	Height()			const { return _height; }
+	virtual int	Width()			const { return _width; }
+	virtual int	Height()			const { return _height; }
+	inline void SetWidth(int width) { _width = width; }
+	inline void SetHeight(int height) { _height = height; }
 	inline bool	Active()			const { return _isActive; }
 	inline bool	Expired()			const { return _isExpired; }
 	void SetActive(bool flag) { _isActive = flag; }
@@ -58,7 +60,7 @@ public:
 #pragma region 멤버 변수
 private:
 	Vector2 _position;
-	char*	_pImage = nullptr;
+	wchar_t*	_pImage = nullptr;
 	int		_width = 0;
 	int		_height = 0;
 	bool	_hasBeginPlay = false;
