@@ -28,7 +28,7 @@ Stair* StairGenerator::InitGenerate()
 		Collider* col = new Collider(colliderPos, _width, _height);
 		Stair* newStair = new Stair(_pStairImage, col, _lastStairPos);
 		_lastStairPos._x = _lastStairPos._x + _width;
-		_lastStairPos._y = _lastStairPos._y - _height;
+		_lastStairPos._y = _lastStairPos._y - _height - 1; // TODO :변경중
 		return newStair;
 	}
 	// case 짝수: 마지막 계단 기준으로 왼쪽 설치
@@ -39,7 +39,7 @@ Stair* StairGenerator::InitGenerate()
 		Collider* col = new Collider(colliderPos, _width, _height);
 		Stair* newStair = new Stair(_pStairImage, col, _lastStairPos);
 		_lastStairPos._x = _lastStairPos._x - _width;
-		_lastStairPos._y = _lastStairPos._y - _height;
+		_lastStairPos._y = _lastStairPos._y - _height - 1;// TODO :변경중
 		return newStair;
 	}
 }
