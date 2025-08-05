@@ -12,7 +12,6 @@
 
 Level::Level()
 {
-	// std::cout << "Level: " << Level::TypeIdClass() << "\n";
 }
 
 Level::~Level()
@@ -65,12 +64,9 @@ void Level::Tick(float deltaTime)
 
 void Level::Render()
 {
-	// 정렬해서 재배치
-	SortActorsBySortingOrder();
-
-	// RenderPass
-	for (Actor* const actor : _actors) {
-		// 액터 처리 여부 확인
+	int actorSize = static_cast<int>(_actors.size());
+	for (int i = actorSize - 1; i >= 0; --i) {
+		Actor* const actor = _actors[i];
 		if (actor->_isActive == false || actor->_isExpired == true) {
 			continue;
 		}
