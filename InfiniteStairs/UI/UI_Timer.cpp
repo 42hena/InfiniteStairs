@@ -1,17 +1,15 @@
 #include "UI_Timer.h"
 
+#include "Engine.h"
+
 #include "Utils/Utils.h"
 
 #include <iostream>
 
-ClimbTimer::ClimbTimer()
-	:Actor(L"", Color::Color_Red),
+ClimbTimer::ClimbTimer(const Vector2& rPosition)
+	:Actor(L"", Color::Color_Red, rPosition),
 	_remainGauge(10.0f)
 {
-	Vector2 pos = Position();
-	pos._x = 15;
-	pos._y = 0;
-	SetPosition(pos);
 }
 
 ClimbTimer::~ClimbTimer()
@@ -34,11 +32,9 @@ void ClimbTimer::Render()
 {
 	// super::Render();
 
-	Utils::SetConsolePosition(Position());
-
-	Utils::SetConsoleTextColor(Color::Color_Blue);
 	wchar_t buff[200];
-	std::wcout << GetRemainGaugeStr(buff, 200);
+	GetRemainGaugeStr(buff, 200);
+	Engine::GetInstance().DrawDefault((const wchar_t*)& buff, Position(), Color::Color_Green);
 }
 
 wchar_t* ClimbTimer::GetRemainGaugeStr(wchar_t* buff, size_t size)

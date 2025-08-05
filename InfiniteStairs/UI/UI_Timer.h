@@ -8,7 +8,7 @@ class ClimbTimer : public Actor
 {
 	RTTI_DECLARATIONS(ClimbTimer, Actor)
 public:
-	ClimbTimer();
+	ClimbTimer(const Vector2& rPosition);
 	~ClimbTimer();
 
 
@@ -26,6 +26,5 @@ public:
 
 private:
 	bool		_flag = false;
-	Vector2		_position;
 	FadeGauge	_remainGauge;
 };
