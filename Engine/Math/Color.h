@@ -4,6 +4,7 @@
 // »ö»ó
 enum class Color : int
 {
+	Color_None = 0,
 	Color_Blue = 1,
 	Color_Green = 2,
 	Color_Red = 4,
