@@ -191,32 +191,38 @@ void Engine::Render()
 
 	if (_mainLevel != nullptr)
 	{
-		
 		ClearBoard();
-		
-		// 더블 버퍼 순서 변경.
-		_screenOrder = !_screenOrder;
 		
 		// 스크린 버퍼에 쓰기.
 		_mainLevel->Render();
 
 		// 버퍼 출력
 		_pScreenBuffers[_screenOrder]->Render();
-
+		
 		SetConsoleActiveScreenBuffer(_pScreenBuffers[_screenOrder]->ConsoleHandle());
+		
+		// 더블 버퍼 순서 변경.
+		_screenOrder = !_screenOrder;
 	}
 }
 
 void Engine::ClearBoard()
 {
-	void * pSB = _pScreenBuffers[_screenOrder]->GetScreenBuffer();
-	void* pSS = _pScreenBuffers[_screenOrder]->GetSortBuffer();
-	int width = _pScreenBuffers[_screenOrder]->ScreenWidth();
-	int height = _pScreenBuffers[_screenOrder]->ScreenHeight();
+	int order = _screenOrder;
+	CHAR_INFO* pSB = _pScreenBuffers[order]->GetScreenBuffer();
+	void* pSS = _pScreenBuffers[order]->GetSortBuffer();
+	int width = _pScreenBuffers[order]->ScreenWidth();
+	int height = _pScreenBuffers[order]->ScreenHeight();
+	/*Utils::SetConsoleTextColor(_pScreenBuffers[order]->ConsoleHandle(), Color::Color_None);
+
+	COORD coord{ width, height };
+	SMALL_RECT rect{ 0, 0, width - 1, height - 1 };
+	WriteConsoleOutputW(_pScreenBuffers[order]->ConsoleHandle(), pSB, coord, { 0, 0 }, &rect);*/
+
 	memset(pSB, 0, width * height * sizeof(CHAR_INFO));
 	memset(pSS, 0, width * height);
 
-	_pScreenBuffers[_screenOrder]->Render();
+	_pScreenBuffers[order]->Render();
 }
 
 void Engine::LoadEngineSettings()
@@ -280,4 +286,9 @@ void Engine::LoadEngineSettings()
 void Engine::Draw(const wchar_t* str, const Vector2& rPosition)
 {
 	_pScreenBuffers[_screenOrder]->DrawBuffer(str, rPosition);
+}
+
+void Engine::DrawDefault(const wchar_t* str, const Vector2& rPosition, Color color)
+{
+	_pScreenBuffers[_screenOrder]->DrawBufferDefault(str, rPosition, color);
 }

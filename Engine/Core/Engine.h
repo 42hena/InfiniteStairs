@@ -3,6 +3,9 @@
 
 #include "Core.h"
 #include "Input.h"
+
+#include "Math/Color.h"
+
 #include <Windows.h>
 
 struct EngineSettings
@@ -56,6 +59,7 @@ public:
 	int Width() const;
 	int Height() const;
 	void Draw(const wchar_t* str, const Vector2& rPosition);
+	void DrawDefault(const wchar_t* str, const Vector2& rPosition, Color color);
 
 #pragma endregion
 
