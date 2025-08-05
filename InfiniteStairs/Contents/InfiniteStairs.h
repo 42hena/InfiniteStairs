@@ -5,14 +5,16 @@
 #include <vector>
 #include "Level/Level.h"
 
+enum Scene
+{
+	Scene_Title,
+	Scene_InGame,
+	Scene_Menu,
+	Scene_Count
+};
+
 class InfiniteStairs : public Engine
 {
-	enum Scene
-	{
-		Scene_Title,
-		Scene_InGame,
-		Scene_Menu,
-	};
 
 public:
 	InfiniteStairs();
@@ -24,10 +26,18 @@ public:
 	InfiniteStairs& operator=(InfiniteStairs&& rhs)			= delete;
 
 public:
+	static InfiniteStairs& GetInstance() { return *_static_instance; }
+
+public:
 	void RegisterLevel(Level* pLevel);
+	void ChangeLevel(Scene sceneNum);
 
 private:
-	std::vector<class Level*> _levels;
+	static InfiniteStairs*		_static_instance;
+
+private:
+	std::vector<class Level*>	_levels;
+	Scene						_levelIndex = Scene_Title;
 };
 
 #endif
