@@ -151,15 +151,19 @@
   <ItemGroup>
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Stair.cpp" />
+    <ClCompile Include="Contents\Animator.cpp" />
     <ClCompile Include="Contents\Timer.cpp" />
+    <ClCompile Include="Resources\Resources.cpp" />
+    <ClCompile Include="UI\UI_ButtonImage.cpp" />
     <ClCompile Include="UI\UI_GameHUD.cpp" />
+    <ClCompile Include="UI\UI_Item.cpp" />
     <ClCompile Include="UI\UI_Score.cpp" />
     <ClCompile Include="UI\UI_Timer.cpp" />
     <ClCompile Include="UI\UI_Title.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Contents\Character.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -177,22 +181,28 @@
   <ItemGroup>
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Stair.h" />
+    <ClInclude Include="Contents\Animator.h" />
     <ClInclude Include="Contents\Character.h" />
     <ClInclude Include="Contents\Timer.h" />
+    <ClInclude Include="Contents\IFunctor.h" />
+    <ClInclude Include="Resources\Resources.h" />
     <ClInclude Include="UI\UI_GameHUD.h" />
+    <ClInclude Include="UI\UI_Item.h" />
     <ClInclude Include="UI\UI_Score.h" />
+    <ClInclude Include="UI\UI_ButtonImage.h" />
     <ClInclude Include="UI\UI_Timer.h" />
     <ClInclude Include="UI\UI_Title.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Contents\Collider.h" />
     <ClInclude Include="Contents\InfiniteStairs.h" />
     <ClInclude Include="Contents\StairGenerator.h" />
     <ClInclude Include="Level\InGameLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
+    <ClInclude Include="UI_Image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
