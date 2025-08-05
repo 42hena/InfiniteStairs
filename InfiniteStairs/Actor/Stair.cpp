@@ -78,10 +78,3 @@ bool Stair::IsColliding(Collider* pOther) const
 {
 	return _pCollider->IsColliding(*pOther);;
 }
-
-
-//void Stair::SetPosition(int x, int y)
-//{
-//	
-//}
-
