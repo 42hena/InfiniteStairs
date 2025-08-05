@@ -31,8 +31,6 @@ public:
 	void OnEarnScore(int score) { _score += 1; }
 
 private:
-	Vector2 _position;
-
 	int		_score = 0;
 };
 

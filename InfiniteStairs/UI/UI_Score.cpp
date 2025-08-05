@@ -1,5 +1,6 @@
 #include "UI_Score.h"
 
+#include "Engine.h"
 #include "Utils/Utils.h"
 
 #include <iostream>
@@ -20,7 +21,8 @@ void Score::Render()
 
 	Utils::SetConsoleTextColor(Color::Color_Blue);
 	wchar_t buff[200];
-	std::wcout << GetScoreStr(buff, 200);
+	GetScoreStr(buff, 200);
+	Engine::GetInstance().DrawDefault((const wchar_t*)&buff, Position(), Color::Color_Green);
 }
 
 wchar_t* Score::GetScoreStr(wchar_t* buff, size_t size)
