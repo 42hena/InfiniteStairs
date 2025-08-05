@@ -1,7 +1,10 @@
-#pragma once
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 #include "Actor/Actor.h"
+
 #include "Contents/Collider.h"
+#include "Contents/Animator.h"
 
 enum Direction
 {
@@ -33,13 +36,22 @@ public:
 
 	Collider* GetCollider() const { return _pCollider; }
 	bool IsColliding(Collider* pOther) const;
+
+
+	void SetAnim(Animator* anim)
+	{
+		_pAnim[_animCount] = std::move(anim);
+		_animCount++;
+	}
+
 private:
-	Level* pLevel =  nullptr;
+	Level*		pLevel =  nullptr;
 
 	Character*	_image[2];
 	int			_imageLength = 1;
+	Animator*	_pAnim[2] = { nullptr, nullptr};
+	int			_animCount = 0;
 
-	wchar_t** _ppImage[2] = { nullptr, nullptr };
 	int _imageWidth = 3;
 	int _imageHeight = 5;
 	Direction _dir;
@@ -47,3 +59,5 @@ private:
 
 	Collider* _pCollider = nullptr;
 };
+
+#endif

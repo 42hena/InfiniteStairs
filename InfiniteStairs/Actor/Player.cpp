@@ -24,54 +24,6 @@ Player::Player(Character* left, Character* right, const Vector2& rPosition, Coll
 	_pCollider->SetOwner(this);
 }
 
-Player::Player(const wchar_t** ppImage[], Direction dir)
-	:_dir(dir)
-	, Actor(L"###", Color::Color_Blue, Vector2(18, 9))
-{
-	DebugBreak();
-	wchar_t** first = const_cast<wchar_t**>(ppImage[0]);
-	int row = 0;
-
-	while (*first != nullptr)
-	{
-		++row;
-		first++;
-	}
-	_ppImage[0] = new wchar_t* [row + 1];
-	_ppImage[0][row] = nullptr;
-	for (int i = 0; i < row; ++i)
-	{
-		size_t strLen = wcslen(ppImage[0][i]);
-		_ppImage[0][i] = new wchar_t[strLen + 1];
-		wcscpy_s(_ppImage[0][i], strLen + 1, ppImage[0][i]);
-		_imageHeight = strLen;
-	}
-	_imageHeight = row;
-
-	first = const_cast<wchar_t**>(ppImage[1]);
-	row = 0;
-
-	while (*first != nullptr)
-	{
-		++row;
-		first++;
-	}
-	_ppImage[1] = new wchar_t* [row + 1];
-	_ppImage[1][row] = nullptr;
-	for (int i = 0; i < row; ++i)
-	{
-		size_t strLen = wcslen(ppImage[1][i]);
-		_ppImage[1][i] = new wchar_t[strLen + 1];
-		wcscpy_s(_ppImage[1][i], strLen + 1, ppImage[1][i]);
-		_imageHeight = strLen;
-	}
-	_imageHeight = row;
-
-	Vector2 phyPos = Vector2(0, 1);
-	_pCollider = new Collider(phyPos, 3, 1);
-	_pCollider->SetOwner(this);
-}
-
 Player::~Player()
 {
 	SafeDelete(_pCollider);
@@ -80,7 +32,8 @@ Player::~Player()
 void Player::Tick(float deltaTime)
 {
 	// super::Tick(deltaTime);
-
+	_pAnim[0]->CalculateTime(deltaTime);
+	_pAnim[1]->CalculateTime(deltaTime);
 	// Key Press (Q)
 	if (Input::GetInstance().GetKeyDown(0x51))
 	{
@@ -94,8 +47,8 @@ void Player::Tick(float deltaTime)
 			if (ll == nullptr)
 				DebugBreak();
 			ll->OnPressDown();
-			ll->OnMovedStairs(newPosition._x, newPosition._y);
-			ll->OnCreateStairs(newPosition._x, newPosition._y);
+			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: 문제
+			ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
 		}
 	}
 	// Key Press (W)
@@ -109,8 +62,8 @@ void Player::Tick(float deltaTime)
 			if (ll == nullptr)
 				DebugBreak();
 			ll->OnPressDown();
-			ll->OnMovedStairs(newPosition._x, newPosition._y);
-			ll->OnCreateStairs(newPosition._x, newPosition._y);
+			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: 문제
+			ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
 		}
 	}
 }
@@ -126,20 +79,26 @@ void Player::Render()
 
 	if (_dir == Direction::Direction_Left)
 	{
-		wchar_t** ppCharacter = _image[0]->GetCharacterPtr();
-		for (int i = 0; i < _imageHeight; ++i)
+		Character* pImage = _pAnim[0]->GetCurrentImagePtr();
+
+		
+		wchar_t** ppCharacter = pImage->GetCharacterPtr();
+		for (int i = 0; i < pImage->Height(); ++i)
 		{
-			Engine::GetInstance().Draw(ppCharacter[i], playerPosition);
+			Engine::GetInstance().DrawDefault(ppCharacter[i], playerPosition, Color::Color_White);
 			// 콘솔의 다음 위치로 이동
 			playerPosition._y = playerPosition._y + 1;
 		}
 	}
 	else if (_dir == Direction::Direction_Right)
 	{
-		wchar_t** ppCharacter = _image[1]->GetCharacterPtr();
-		for (int i = 0; i < _imageHeight; ++i)
+		Character* pImage = _pAnim[1]->GetCurrentImagePtr();
+
+
+		wchar_t** ppCharacter = pImage->GetCharacterPtr();
+		for (int i = 0; i < pImage->Height(); ++i)
 		{
-			Engine::GetInstance().Draw(ppCharacter[i], playerPosition);
+			Engine::GetInstance().DrawDefault(ppCharacter[i], playerPosition, Color::Color_White);
 			// 콘솔의 다음 위치로 이동
 			playerPosition._y = playerPosition._y + 1;
 		}
