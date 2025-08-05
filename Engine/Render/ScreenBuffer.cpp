@@ -70,6 +70,16 @@ void ScreenBuffer::DrawBuffer(const wchar_t* str, const Vector2& rPosition)
 	}
 }
 
+void ScreenBuffer::DrawBufferDefault(const wchar_t* str, const Vector2& rPosition, Color color)
+{
+	int index = rPosition._y * _screenWidth + rPosition._x;
+	int strLen = wcslen(str);
+	for (int i = 0; i < strLen; ++i) {
+		_pConsoleBuffer[index + i].Char.UnicodeChar = str[i];
+		_pConsoleBuffer[index + i].Attributes = static_cast<DWORD>(color);
+	}
+}
+
 void ScreenBuffer::Render()
 {
 	COORD coord{ _screenWidth , _screenHeight };
