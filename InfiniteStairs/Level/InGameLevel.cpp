@@ -10,13 +10,28 @@
 
 #include "Contents/Character.h"
 
+#include "Resources/Resources.h"
+
 InGameLevel::InGameLevel()
 	:_generator(11, 2)
 {	
+	const int cStairCount = 4;
 	//const wchar_t* wp[] = { L"<###>", L"<===>", nullptr};
 
-	const wchar_t* wlp[] = { L"  ∧＿∧ =-   ", L"(´･ω･`)`つ=-", L"　`つ \ =-    ",L" 　\,⌒＼\,,,_=-", nullptr };
-	const wchar_t* wrp[] = { L"　-= ∧＿∧    ", L"-=と(´･ω･`) ", L"　-=/　と_ノ   ",L"-=_/／⌒ｿ    ", nullptr };
+	const wchar_t* wlp[] = { 
+		L"  ∧＿∧ =-   ", 
+		L"(´･ω･`)`つ=-", 
+		L"　`つ \ =-    ",
+		L" 　\,⌒＼\,,,_=-", nullptr };
+
+
+
+
+	const wchar_t* wrp[] = { 
+		L"　-= ∧＿∧    ", 
+		L"-=と(´･ω･`) ", 
+		L"　-=/　と_ノ   ",
+		L"-=_/／⌒ｿ    ", nullptr };
 
 	Character *playerL = new Character(wlp);
 	Character *playerR = new Character(wrp);
@@ -27,31 +42,45 @@ InGameLevel::InGameLevel()
 	Character* pStair = new Character(stair);
 	_generator.SetStairImage(pStair);
 	int stairWidth = 11;
-	int stairHeight = 2;
+	int stairHeight = 2;	// 얘는 잘못건들이면 안됌
 
-	Vector2 playerPos(66, 22);
+	Vector2 playerPos(66, 23);	// TODO: 1칸 줄임.
 	Vector2 playerColliderPos(0, 3);
 	Collider* pPlayerCollider = new Collider(playerColliderPos, stairWidth, 2);
-	 AddActor(new Player(playerL, playerR, playerPos, pPlayerCollider, Direction_Left));
+
+
+	Animator* animL = new Animator();
+	for (int i = 0; i < 12; ++i)
+	{
+		animL->AddAnim(new Character(alp[i]));
+	}
+	Animator* animR = new Animator();
+	for (int i = 0; i < 12; ++i)
+	{
+		animR->AddAnim(new Character(arp[i]));
+	}
+
+	Player* pPlayer = new Player(playerL, playerR, playerPos, pPlayerCollider, Direction_Left);
+	pPlayer->SetAnim(animL);
+	pPlayer->SetAnim(animR);
+	AddActor(pPlayer);
 
 	// 계단 생성
-
 	_generator.SetStairWidth(stairWidth);
 	_generator.SetStairHeight(stairHeight);
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < cStairCount; ++i)
 	{
 		Stair* pNewStair = _generator.InitGenerate();
 		AddActor(pNewStair);
 	}
 
 	// Game UI 설정
-	//Vector2 rr(51, 10);
-	//AddUIActor(new Score(rr));
-	//rr._x = 0;
-	//rr._y = 0;
-	//// AddUIActor(new GameHUD(rr, 41, 21));
+	Vector2 rr(0, 0);
+	AddUIActor(new Score(rr));
+	rr._y = rr._y + 1;
+	// AddUIActor(new GameHUD(rr, 41, 21));
 
-	//AddUIActor(new ClimbTimer());
+	AddUIActor(new ClimbTimer(rr));
 }
 
 InGameLevel::~InGameLevel()
@@ -124,14 +153,14 @@ void InGameLevel::OnMovedStairs(int x, int y)
 		}
 
 		Vector2 position(pActor->Position());
-		Vector2 newPosition(position._x - x *  pActor->Width(), position._y - y * pActor->Height());
+		Vector2 newPosition(position._x - x *  pActor->Width(), position._y - y * pActor->Height() + 1);// TODO:......;
 		pActor->SetPosition(newPosition);
 	}
 }
 
 void InGameLevel::OnCreateStairs(int x, int y)
 {
-	_generator.MoveLastStair(-x * 11, -y * 2);	// TODO 이거 꽤 문제네.
+	_generator.MoveLastStair(-x * 11, -y * 3);	// TODO 이거 꽤 문제네.
 	Stair* pStair = _generator.InitGenerate();
 	AddActor(pStair);
 }
