@@ -59,7 +59,7 @@ Character& Character::operator=(const Character& rhs)
 	return *this;
 }
 
-Character& Character::operator=(Character&& rhs)
+Character& Character::operator=(Character&& rhs) noexcept
 {
 	DebugBreak();
 	return *this;

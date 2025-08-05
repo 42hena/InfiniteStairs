@@ -9,14 +9,13 @@ public:
 	Character(const Character& rhs);
 	Character(Character&& rhs) noexcept;
 	Character& operator=(const Character& rhs);
-	Character& operator=(Character&& rhs);
+	Character& operator=(Character&& rhs)	noexcept;
 	~Character();
 
 public:
 	inline int Width() { return _width; }
 	inline int Height() { return _height; }
 	inline wchar_t** GetCharacterPtr() { return _character; }
-
 
 private:
 	void Clear();
