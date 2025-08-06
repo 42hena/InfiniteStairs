@@ -3,6 +3,7 @@
 
 #include "Core.h"
 
+#include <Windows.h>
 class ENGINE_API Input
 {
 	friend class Engine;
@@ -15,6 +16,17 @@ class ENGINE_API Input
 		};
 		bool _isKeyDown = false;
 		bool _previousKeyDown = false;
+	};
+#pragma endregion
+#pragma region MouseState_키_확인_구조체
+	struct MouseState
+	{
+		enum CONST_MOUSESTATE
+		{
+			VK_MAX = 3
+		};
+		bool _isClick = false;
+		COORD _mousePosition;
 	};
 #pragma endregion
 
@@ -34,6 +46,13 @@ public:
 	bool GetKey(int keyCode);
 	bool GetKeyDown(int keyCode);
 	bool GetKeyUp(int keyCode);
+
+
+	// 마우스 확인 함수
+	bool	GetMouseLeftClick();
+	bool	GetMouseRightClick();
+	COORD	GetMouseLeftPosition();
+
 #pragma endregion
 private:
 	void ProcessInput();
@@ -45,7 +64,8 @@ private:
 
 #pragma region 멤버 변수
 private:
-	KeyState _keyStates[256] = {};
+	KeyState	_keyStates[256] = {};
+	MouseState	_mouseStates[3] = {};
 #pragma endregion
 };
 
