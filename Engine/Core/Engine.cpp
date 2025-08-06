@@ -69,6 +69,10 @@ Engine::~Engine()
 {
 	if (false)
 		CleanUp();
+
+	for (int i = 0; i < Limit_ScreenCount; ++i) {
+		delete _pScreenBuffers[i];
+	}
 }
 
 /*
@@ -104,9 +108,9 @@ void Engine::Run()
 		times = currentTime.QuadPart - previousTime.QuadPart;
 		float deltaTime = times / (float)frequency.QuadPart;
 
-		_input.ProcessInput();
 		if (deltaTime >= oneFrameTime)
 		{
+			_input.ProcessInput();
 			BeginPlay();
 			Tick(deltaTime);
 			Render();
@@ -291,4 +295,9 @@ void Engine::Draw(const wchar_t* str, const Vector2& rPosition)
 void Engine::DrawDefault(const wchar_t* str, const Vector2& rPosition, Color color)
 {
 	_pScreenBuffers[_screenOrder]->DrawBufferDefault(str, rPosition, color);
+}
+
+void Engine::DrawDefault(const wchar_t ch, const Vector2& rPosition, Color color)
+{
+	_pScreenBuffers[_screenOrder]->DrawBufferDefault(ch, rPosition, color);
 }

@@ -60,6 +60,7 @@ public:
 	int Height() const;
 	void Draw(const wchar_t* str, const Vector2& rPosition);
 	void DrawDefault(const wchar_t* str, const Vector2& rPosition, Color color);
+	void DrawDefault(const wchar_t ch, const Vector2& rPosition, Color color);
 
 #pragma endregion
 
