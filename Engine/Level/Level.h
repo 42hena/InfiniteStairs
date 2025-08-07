@@ -25,6 +25,8 @@ public:
 	virtual void Tick(float deltaTime);
 	virtual void Render();
 
+	virtual void Clear() {};
+	virtual void Reset() {};
 	/*
 	*		객체 관리 함수
 	*/

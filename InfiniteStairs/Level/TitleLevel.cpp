@@ -29,10 +29,10 @@ void TitleLevel::Tick(float deltaTime)
 	super::Tick(deltaTime);
 
 	// 입력 처리
-	//if (Input::GetInstance().GetKeyDown(VK_UP))
-	//{
-	//	_currentIndex = (_currentIndex - 1 + _titleItemLength) % _titleItemLength;
-	//}
+	if (Input::GetInstance().GetKeyDown(VK_ESCAPE))
+	{
+		Engine::GetInstance().Quit();
+	}
 	//if (Input::GetInstance().GetKeyDown(VK_DOWN))
 	//{
 	//	_currentIndex = (_currentIndex + 1) % _titleItemLength;

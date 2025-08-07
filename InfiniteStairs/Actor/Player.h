@@ -21,7 +21,6 @@ class Player : public Actor
 
 public:
 	Player(Character* left, Character* right, const Vector2& rPosition, Collider* col, Direction dir = Direction_Left);
-	Player(const wchar_t** ppImage[], Direction dir = Direction::Direction_Left);
 	~Player();
 
 public:
@@ -30,19 +29,24 @@ public:
 
 
 	virtual void Tick(float deltaTime = 0) override;
-	virtual void Render() override;
+	virtual void Render()					override;
+	virtual void Reset()					override;
 
 	class Level* CurLevel() const { return pLevel; }
 
 	Collider* GetCollider() const { return _pCollider; }
 	bool IsColliding(Collider* pOther) const;
 
+	void ChangeDir(){ _dir = _dir == Direction_Left ? Direction_Right : Direction_Left; }
+	int GetDir() {	return _dir;	}
 
 	void SetAnim(Animator* anim)
 	{
 		_pAnim[_animCount] = std::move(anim);
 		_animCount++;
 	}
+
+	Direction _previousDir = Direction_Left;
 
 private:
 	Level*		pLevel =  nullptr;

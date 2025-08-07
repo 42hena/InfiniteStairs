@@ -28,6 +28,11 @@ ScreenBuffer::ScreenBuffer(HANDLE hConsole)
 
 ScreenBuffer::~ScreenBuffer()
 {
+	if (_pConsoleBuffer != nullptr)
+		SafeDeleteArray(_pConsoleBuffer);
+	if (_pSortOrder != nullptr)
+		SafeDeleteArray(_pSortOrder);
+
 	// mainConsoleHandle을 삭제 시 조금 애매해질 수 있음.
 	CloseHandle(_hConsole);
 }
@@ -58,7 +63,7 @@ void ScreenBuffer::UpdateScreenBuffer()
 void ScreenBuffer::DrawBuffer(const wchar_t* str, const Vector2& rPosition)
 {
 	int index = rPosition._y * _screenWidth + rPosition._x;
-	int strLen = wcslen(str);
+	int strLen = static_cast<int>(wcslen(str));
 	for (int i = 0; i < strLen; ++i) {
 		_pConsoleBuffer[index + i].Char.UnicodeChar = str[i];
 		// _pConsoleBuffer[index + i].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
@@ -70,13 +75,21 @@ void ScreenBuffer::DrawBuffer(const wchar_t* str, const Vector2& rPosition)
 	}
 }
 
+void ScreenBuffer::DrawBufferDefault(const wchar_t ch, const Vector2& rPosition, Color color)
+{
+	int index = rPosition._y * _screenWidth + rPosition._x;
+	_pConsoleBuffer[index].Char.UnicodeChar = ch;
+	_pConsoleBuffer[index].Attributes = static_cast<WORD>(color);
+}
+
+
 void ScreenBuffer::DrawBufferDefault(const wchar_t* str, const Vector2& rPosition, Color color)
 {
 	int index = rPosition._y * _screenWidth + rPosition._x;
-	int strLen = wcslen(str);
+	int strLen = static_cast<int>(wcslen(str));
 	for (int i = 0; i < strLen; ++i) {
 		_pConsoleBuffer[index + i].Char.UnicodeChar = str[i];
-		_pConsoleBuffer[index + i].Attributes = static_cast<DWORD>(color);
+		_pConsoleBuffer[index + i].Attributes = static_cast<WORD>(color);
 	}
 }
 

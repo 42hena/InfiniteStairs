@@ -7,15 +7,18 @@
 #include "UI/UI_Score.h"
 #include "UI/UI_GameHUD.h"
 #include "UI/UI_Timer.h"
+#include "UI/UI_ButtonImage.h"
 
 #include "Contents/Character.h"
 
 #include "Resources/Resources.h"
 
+#include "Contents/InfiniteStairs.h"
+
 InGameLevel::InGameLevel()
 	:_generator(11, 2)
 {	
-	const int cStairCount = 4;
+	const int cStairCount = 1;
 	//const wchar_t* wp[] = { L"<###>", L"<===>", nullptr};
 
 	const wchar_t* wlp[] = { 
@@ -68,11 +71,19 @@ InGameLevel::InGameLevel()
 	// 계단 생성
 	_generator.SetStairWidth(stairWidth);
 	_generator.SetStairHeight(stairHeight);
-	for (int i = 0; i < cStairCount; ++i)
+	/*for (int i = 0; i < cStairCount; ++i)
 	{
 		Stair* pNewStair = _generator.InitGenerate();
 		AddActor(pNewStair);
-	}
+	}*/
+
+	const wchar_t* pTimer[] = {
+		L"╭────────────────────────────────────────╮",
+		L"|                                        |",
+		L"|                                        |",
+		L"╰────────────────────────────────────────╯",
+		 nullptr };
+	Character* pTimerr = new Character(pTimer);
 
 	// Game UI 설정
 	Vector2 rr(0, 0);
@@ -80,16 +91,93 @@ InGameLevel::InGameLevel()
 	rr._y = rr._y + 1;
 	// AddUIActor(new GameHUD(rr, 41, 21));
 
-	AddUIActor(new ClimbTimer(rr));
+	AddUIActor(new ClimbTimer(pTimerr, rr));
+
+
+	Character* plButton = new Character(buttonL);
+	Vector2 lButtonPos(0, 30);
+
+	ButtonImage* pLButtonImage = new ButtonImage(plButton, nullptr, lButtonPos);
+	pLButtonImage->SetType(ButtonLButton);
+	AddUIActor(pLButtonImage);
+
+	Character* prButton = new Character(buttonR);
+	Vector2 rButtonPos(99, 30);
+	ButtonImage* pRButtonImage = new ButtonImage(prButton, nullptr, rButtonPos);
+	pRButtonImage->SetType(ButtonRButton);
+	AddUIActor(pRButtonImage);
 }
 
 InGameLevel::~InGameLevel()
 {
+	/*for (auto pActor : _actors) {
+		DestroyActor(pActor);
+	}
+	for (auto pActor : _UIActors) {
+		DestroyUIActor(pActor);
+	}*/
 }
 
 void InGameLevel::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
+
+	if (Input::GetInstance().GetKeyDown(VK_ESCAPE)) {
+		Engine::GetInstance().Quit();
+		return;
+	}
+
+	/* Time Over */
+
+	/* 마우스 입력 */
+	bool ret= Input::GetInstance().GetMouseLeftClick();
+	if (ret)
+	{
+		COORD mousePosition = Input::GetInstance().GetMousePosition();
+
+		wchar_t debug[50] = {};
+		swprintf_s(debug, 50, L"posX: %d, posY: %d\n", mousePosition.X, mousePosition.Y);
+		OutputDebugStringW(debug);
+
+		ButtonImage* pButton = nullptr;
+		for (Actor* pActor : _UIActors) {
+			pButton = pActor->As<ButtonImage>();
+			if (pButton == nullptr) {
+				continue;
+			}
+
+			int w = pButton->Width();
+			int h = pButton->Height();
+			Vector2 pos = pButton->Position();
+			int b = 0;
+			if (mousePosition.X >= pos._x && mousePosition.X < pos._x + w &&
+				mousePosition.Y >= pos._y && mousePosition.Y < pos._y + h
+				)
+			{
+				if (pButton->Type() == ButtonLButton)
+				{
+					Player* pPlayer = static_cast<Player*>(_actors[0]);
+
+					pPlayer->ChangeDir();
+					//_dir = _dir == Direction_Left ? Direction_Right : Direction_Left;
+					Vector2 newPosition(pPlayer->GetDir(), -1);
+					OnPressDown();
+					OnMovedStairs(newPosition._x, newPosition._y);
+					//OnCreateStairs(newPosition._x, newPosition._y);
+				}
+				else if (pButton->Type() == ButtonRButton)
+				{
+					Player* pPlayer = static_cast<Player*>(_actors[0]);
+
+					//_dir = _dir == Direction_Left ? Direction_Right : Direction_Left;
+					Vector2 newPosition(pPlayer->GetDir(), -1);
+					OnPressDown();
+					OnMovedStairs(newPosition._x, newPosition._y);
+					//OnCreateStairs(newPosition._x, newPosition._y);
+				}
+			}
+		}
+	}
 
 	/* 키 입력 시 로직 */
 	if (_keyPressFlag)
@@ -118,6 +206,11 @@ void InGameLevel::Tick(float deltaTime)
 			collisionFlag = pPlayer->IsColliding(pStair->GetCollider());
 			if (collisionFlag == true)
 			{
+				Vector2 newPosition(pPlayer->GetDir(), -1);
+				OnCreateStairs(newPosition._x, newPosition._y);
+				// 여기서 생성하는 쪽으로 가야할듯?
+
+
 				Actor* pUIActor = nullptr;
 				for (Actor* pActor : _UIActors)
 				{
@@ -134,15 +227,51 @@ void InGameLevel::Tick(float deltaTime)
 			}
 		}
 
+		_keyPressFlag = false;
 		if (collisionFlag == false)
 		{
-			// TODO: 게임 다시하기 및 이런거 로직.
-			DebugBreak();
+			InfiniteStairs::GetInstance().ChangeLevel(Scene_Title);
+		}
+	}
+}
+
+void InGameLevel::Clear()
+{
+	for (auto* pActor : _actors) {
+		Actor* temp = pActor->As<Player>();
+		if (temp != nullptr) {
+			static_cast<Actor*>(temp)->Reset();
+			continue;
 		}
 
-
-		_keyPressFlag = false;
+		pActor->Destroy();
 	}
+}
+
+void InGameLevel::Reset()
+{
+	_generator.Reset();
+
+	for (auto* pActor : _UIActors) {
+		pActor->Reset();
+	}
+
+	/*for (auto* pActor : _actors) {
+		Actor* temp = pActor->As<Player>();
+		if (temp != nullptr) {
+			static_cast<Actor*>(temp)->Reset();
+			continue;
+		}
+
+		pActor->Destroy();
+	}*/
+
+	for (int i = 0; i < 5; ++i)
+	{
+		Stair* pNewStair = _generator.InitGenerate();
+		AddActor(pNewStair);
+	}
+
 }
 
 void InGameLevel::OnMovedStairs(int x, int y)
@@ -200,28 +329,3 @@ bool InGameLevel::IsColliding(Player* pPlayer)
 	}
 	return flag;
 }
-
-
-
-/*
-*	
-*/
-
-//void InGameLevel::ChangePosition(int x, int y)
-//{
-//	for (Actor* pActor : _actors)
-//	{
-//		if (pActor->As<Player>()) {
-//			continue;
-//		}
-//
-//		Vector2 position(pActor->Position());
-//		int w = pActor->Width();
-//		int h = pActor->Height();
-//		Vector2 newPosition(position._x + x, position._y + 1);
-//		pActor->SetPosition(newPosition);
-//	}
-//
-//	/*Vector2 newPosition(position._x + w, position._y + h);
-//	pActor->SetPosition(newPosition);*/
-//}

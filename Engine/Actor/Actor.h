@@ -26,6 +26,8 @@ public:
 	virtual void Tick(float deltaTime = 0);	// 프레임마다 호출 (반복적 작업/지속성이 필요한 작업).
 	virtual void Render();					// 그리기 함수.
 
+	virtual void Reset() {};					// 처음 상태로 복구
+
 	/*
 	*		일반 함수
 	*/

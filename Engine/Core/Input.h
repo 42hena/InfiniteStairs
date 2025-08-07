@@ -50,8 +50,7 @@ public:
 
 	// 마우스 확인 함수
 	bool	GetMouseLeftClick();
-	bool	GetMouseRightClick();
-	COORD	GetMouseLeftPosition();
+	COORD	GetMousePosition();
 
 #pragma endregion
 private:
@@ -64,8 +63,8 @@ private:
 
 #pragma region 멤버 변수
 private:
-	KeyState	_keyStates[256] = {};
-	MouseState	_mouseStates[3] = {};
+	KeyState	_keyStates[255] = {};
+	MouseState	_mouseStates	= {};
 #pragma endregion
 };
 

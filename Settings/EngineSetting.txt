@@ -1,3 +1,14 @@
-width = 39
-height = 20
-frameRate = 10
+width = 121
+height = 50
+frameRate = 60
+
+
+
+1. 3D 엔진 구조
+2. Level에서의 Tick 관리와 Actor에서의 Tick관리
+3. 
+
+
+1. input을 저장한다는 취지 ok. 근데 getKey로 보는이유?
+-> |연산써서 함.
+근데 키가 씹힘.

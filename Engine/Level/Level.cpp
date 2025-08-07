@@ -19,7 +19,29 @@ Level::~Level()
 	for (const Actor* actor : _actors)	{
 		SafeDelete(actor);
 	}
+	for (const Actor* actor : _addRequestActors) {
+		SafeDelete(actor);
+	}
+	for (const Actor* actor : _destroyRequestActors) {
+		SafeDelete(actor);
+	}
+
 	_actors.clear();
+	_addRequestActors.clear();
+	_destroyRequestActors.clear();
+
+	for (const Actor* actor : _UIActors) {
+		SafeDelete(actor);
+	}
+	for (const Actor* actor : _addRequestUIActors) {
+		SafeDelete(actor);
+	}
+	for (const Actor* actor : _destroyRequestUIActors) {
+		SafeDelete(actor);
+	}
+	_UIActors.clear();
+	_addRequestUIActors.clear();
+	_destroyRequestUIActors.clear();
 }
 
 /*
@@ -110,11 +132,11 @@ void Level::ProcessAddAndDestroyActors()
 	}
 
 	for (auto*& pActor : _destroyRequestActors) {
-		Utils::SetConsolePosition(pActor->Position());
+		/*Utils::SetConsolePosition(pActor->Position());
 
 		for (int i = 0 ; i < pActor->Width() ; ++i) { 
 			std::wcout << " ";
-		}
+		}*/
 		SafeDelete(pActor);
 	}
 	_destroyRequestActors.clear();
@@ -152,11 +174,11 @@ void Level::ProcessUIAddAndDestroyActors()
 	}
 
 	for (auto*& pActor : _destroyRequestUIActors) {
-		Utils::SetConsolePosition(pActor->Position());
+		/*Utils::SetConsolePosition(pActor->Position());
 
 		for (int i = 0; i < pActor->Width(); ++i) {
 			std::cout << " ";
-		}
+		}*/
 		SafeDelete(pActor);
 	}
 	_destroyRequestUIActors.clear();

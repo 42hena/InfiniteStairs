@@ -26,11 +26,11 @@ Title::~Title()
 }
 
 /*
-*		이벤트 함수
+*	 	이벤트 함수
 */
 
 void Title::Tick(float deltaTime)
-{
+{     
 	super::Tick(deltaTime);
 }
 

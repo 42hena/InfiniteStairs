@@ -27,6 +27,11 @@ Player::Player(Character* left, Character* right, const Vector2& rPosition, Coll
 Player::~Player()
 {
 	SafeDelete(_pCollider);
+	for (int i = 0; i < 2; ++i)
+	{
+		SafeDelete(_image[i]);
+		SafeDelete(_pAnim[i]);
+	}
 }
 
 void Player::Tick(float deltaTime)
@@ -37,6 +42,7 @@ void Player::Tick(float deltaTime)
 	// Key Press (Q)
 	if (Input::GetInstance().GetKeyDown(0x51))
 	{
+		_previousDir = _dir;
 		_dir = _dir == Direction_Left ? Direction_Right : Direction_Left;
 
 		{
@@ -48,13 +54,14 @@ void Player::Tick(float deltaTime)
 				DebugBreak();
 			ll->OnPressDown();
 			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: 문제
-			ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
+			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
 		}
 	}
 	// Key Press (W)
 	else if (Input::GetInstance().GetKeyDown(0x57))
 	{
 		{
+			_previousDir = _dir;
 			Vector2 newPosition(_dir, -1);
 			Level* owner = GetOwner();
 
@@ -63,7 +70,7 @@ void Player::Tick(float deltaTime)
 				DebugBreak();
 			ll->OnPressDown();
 			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: 문제
-			ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
+			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: 문제
 		}
 	}
 }
@@ -107,6 +114,14 @@ void Player::Render()
 		std::wcout << *_ppImage[0];
 	else
 		std::wcout << *(_ppImage[1]);*/
+}
+
+void Player::Reset()
+{
+	// 방향 처음으로.
+	_dir = Direction_Left;
+	/*for (int i = 0 ; i < 2 ; ++i)
+		_pAnim[i].Reset();*/
 }
 
 bool Player::IsColliding(Collider* pOther) const

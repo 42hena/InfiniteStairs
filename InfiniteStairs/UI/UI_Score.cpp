@@ -25,6 +25,11 @@ void Score::Render()
 	Engine::GetInstance().DrawDefault((const wchar_t*)&buff, Position(), Color::Color_Green);
 }
 
+void Score::Reset()
+{
+	Clear();
+}
+
 wchar_t* Score::GetScoreStr(wchar_t* buff, size_t size)
 {
 	int tt = swprintf_s(buff, size, L"Score : %d", _score);

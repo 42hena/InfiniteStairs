@@ -92,6 +92,9 @@ protected:
 
 	ScreenBuffer*	_pScreenBuffers[Limit_ScreenCount];
 	bool			_screenOrder = false;
+
+	Level*			_nextLevel = nullptr;
+	bool			_levelChangeFlag = false;
 #pragma endregion
 };
 

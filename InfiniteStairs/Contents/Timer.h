@@ -13,6 +13,7 @@ public:
 
 	float RemainTime() const {	return _remainTime;	}
 
+	virtual void EarnTime(float deltaTime);
 	virtual void ReduceTime(float deltaTime);
 
 	void SetInitialTime(float initialTime);

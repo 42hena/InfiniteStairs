@@ -18,12 +18,17 @@ InfiniteStairs::InfiniteStairs()
 	RegisterLevel(new InGameLevel());
 
 	// Engine의 main 씬 지정
-	AddLevel(_levels[Scene_Title]);
+	_levelIndex = Scene_Title;
+	AddLevel(_levels[_levelIndex]);
 }
 
 InfiniteStairs::~InfiniteStairs()
 {
-	// TODO: Level 제거 필요
+	/*isQuit = true;
+	_mainLevel = nullptr;*/
+	for (auto* Level : _levels) {
+		SafeDelete(Level);
+	}
 }
 
 /*
@@ -39,8 +44,19 @@ void InfiniteStairs::ChangeLevel(Scene sceneNum)
 {
 	if (_levelIndex == sceneNum || sceneNum >= Scene_Count) {
 		DebugBreak();
+
 		return;
 	}
 
-	_mainLevel = _levels[sceneNum];
+	_levelIndex = sceneNum;
+
+	_mainLevel->Clear();
+	_nextLevel = _levels[_levelIndex];
+	_levelChangeFlag = true;
+	//_mainLevel->Reset();
+}
+
+void InfiniteStairs::CleanUp()
+{
+	this->~InfiniteStairs();
 }

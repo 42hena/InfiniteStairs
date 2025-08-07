@@ -18,6 +18,7 @@ public:
 	void UpdateScreenBuffer();
 
 	void DrawBuffer(const wchar_t* str, const Vector2& rPosition);
+	void DrawBufferDefault(const wchar_t ch, const Vector2& rPosition, Color color);
 	void DrawBufferDefault(const wchar_t* str, const Vector2& rPosition, Color color);
 
 	HANDLE ConsoleHandle() const { return _hConsole; }
@@ -26,17 +27,17 @@ public:
 	void Render(PCHAR_INFO consoleBuffer);
 
 public:
-	inline short ScreenWidth() {	return _screenWidth;	}
-	inline short ScreenHeight() {	return _screenHeight;	}
-	inline CHAR_INFO* GetScreenBuffer() const {return _pConsoleBuffer;}
-	inline CHAR* GetSortBuffer() const {return _pSortOrder;}
+	inline short		ScreenWidth() const		{	return _screenWidth;	}
+	inline short		ScreenHeight() const	{	return _screenHeight;	}
+	inline CHAR_INFO*	GetScreenBuffer() const {	return _pConsoleBuffer;	}
+	inline CHAR*		GetSortBuffer() const	{	return _pSortOrder;		}
 
 private:
-	HANDLE			_hConsole;
-	CHAR_INFO*		_pConsoleBuffer = nullptr;
-	CHAR*			_pSortOrder		= nullptr;
-	short			_screenWidth;
-	short			_screenHeight;
+	HANDLE				_hConsole;
+	CHAR_INFO*			_pConsoleBuffer = nullptr;
+	CHAR*				_pSortOrder		= nullptr;
+	short				_screenWidth;
+	short				_screenHeight;
 };
 
 #endif

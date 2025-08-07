@@ -13,10 +13,14 @@ StairGenerator::StairGenerator(int width, int height)
 	int newWidth = (Engine::GetInstance().Width() - width) / 2.0f;
 	_lastStairPos._x = newWidth;
 	_lastStairPos._y = 24;
+	_initStairPos = _lastStairPos;
 }
 
 StairGenerator::~StairGenerator()
 {
+	if (_pStairImage != nullptr) {
+		SafeDelete(_pStairImage);
+	}
 }
 
 Stair* StairGenerator::InitGenerate()
@@ -59,4 +63,9 @@ void StairGenerator::SetStairImage(Character* pImage)
 	_pStairImage = std::move(pImage);
 	_width = pImage->Width();
 	_height = pImage->Height();
+}
+
+void StairGenerator::Reset()
+{
+	_lastStairPos = _initStairPos;
 }

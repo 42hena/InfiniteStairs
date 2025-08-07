@@ -33,6 +33,16 @@ void Timer::ResetTimer()
 	_remainTime = _initialTime;
 }
 
+void Timer::EarnTime(float deltaTime)
+{
+	if (_remainTime + deltaTime >= _initialTime)	{
+		ResetTimer();
+	}
+	else {
+		_remainTime = _remainTime + deltaTime;
+	}
+}
+
 void Timer::ReduceTime(float deltaTime)
 {
 	_remainTime -= deltaTime;

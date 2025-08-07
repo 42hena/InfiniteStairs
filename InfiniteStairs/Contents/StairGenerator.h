@@ -23,10 +23,14 @@ public:
 
 	void SetStairImage(Character* pImage);
 
+	void Reset();
+
 private:
 	int		_stairCount = 0;
 	Vector2 _lastStairPos;
+	Vector2 _initStairPos;
 	int _width = 3;
 	int _height = 1;
+	
 	Character* _pStairImage = nullptr;
 };

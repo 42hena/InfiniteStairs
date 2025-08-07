@@ -33,9 +33,10 @@ Item::Item(Character* pUnSelectedImage, Character* pSelectedImage, IFunctor *onS
 Item::~Item()
 {
 	if (_pImage != nullptr) {
-		SafeDeleteArray(_pImage[0]);
-		SafeDeleteArray(_pImage[1]);
+		SafeDelete(_pImage[0]);
+		SafeDelete(_pImage[1]);
 	}
+	delete _fpFunctor;
 }
 
 /*
@@ -108,6 +109,9 @@ NavigationItems::NavigationItems()
 
 NavigationItems::~NavigationItems()
 {
+	for (auto* pItem : _items) {
+		SafeDelete(pItem);
+	}
 }
 
 void NavigationItems::AddToNavigation(Item* newItem)

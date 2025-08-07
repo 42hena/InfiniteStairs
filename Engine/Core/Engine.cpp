@@ -22,9 +22,10 @@ BOOL /*WINAPI*/ ConsoleMessageProcedure(DWORD ctrlType)
 {
 	switch (ctrlType)
 	{
+	case CTRL_C_EVENT:
 	case CTRL_CLOSE_EVENT:
 		Engine::GetInstance().CleanUp();
-		return false;
+		return true;
 	default:
 		break;
 	}
@@ -44,7 +45,7 @@ Engine::Engine()
 	info.dwSize = 1;// 찾아보기
 
 	// 콘솔 커서 끄기
-	
+
 	SetConsoleCursorInfo(
 		GetStdHandle(STD_OUTPUT_HANDLE),
 		&info
@@ -67,12 +68,15 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	if (false)
+	/*if (false)
 		CleanUp();
+
+	*/
 
 	for (int i = 0; i < Limit_ScreenCount; ++i) {
 		delete _pScreenBuffers[i];
 	}
+
 }
 
 /*
@@ -96,7 +100,6 @@ void Engine::Run()
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&currentTime);
 	previousTime = currentTime;
-	//printf("%lld %lld\n", currentTime.QuadPart, frequency.QuadPart);
 
 	float targetFrameRate = 120.0f;
 	float oneFrameTime = 1.0f / targetFrameRate;
@@ -108,28 +111,35 @@ void Engine::Run()
 		times = currentTime.QuadPart - previousTime.QuadPart;
 		float deltaTime = times / (float)frequency.QuadPart;
 
+		_input.ProcessInput();
 		if (deltaTime >= oneFrameTime)
 		{
-			_input.ProcessInput();
 			BeginPlay();
 			Tick(deltaTime);
 			Render();
-		
+#pragma region ...
 			wchar_t title[50] = {};
 			swprintf_s(title, 50, L"FPS: %f", (1.0f) / deltaTime);
-			//wsprintf_s()
-			SetConsoleTitleW(title);
+ 			SetConsoleTitleW(title);
 
 			// 시간 업데이트
 			previousTime = currentTime;
 
 			// 현재 프레임의 입력을 기록
 			_input.SavePreviousKeyStates();
-
+#pragma endregion
 			// 이전 프레임에 추가 및 삭제 요청된 액터 처리
 			if (_mainLevel != nullptr) {
 				_mainLevel->ProcessAddAndDestroyActors();
 				_mainLevel->ProcessUIAddAndDestroyActors();
+			}
+
+			if (_levelChangeFlag == true) {
+
+				_mainLevel = _nextLevel;
+				_nextLevel = nullptr;
+				_levelChangeFlag = false;
+				_mainLevel->Reset();
 			}
 		}
 	}
@@ -196,15 +206,15 @@ void Engine::Render()
 	if (_mainLevel != nullptr)
 	{
 		ClearBoard();
-		
+
 		// 스크린 버퍼에 쓰기.
 		_mainLevel->Render();
 
 		// 버퍼 출력
 		_pScreenBuffers[_screenOrder]->Render();
-		
+
 		SetConsoleActiveScreenBuffer(_pScreenBuffers[_screenOrder]->ConsoleHandle());
-		
+
 		// 더블 버퍼 순서 변경.
 		_screenOrder = !_screenOrder;
 	}
@@ -238,7 +248,7 @@ void Engine::LoadEngineSettings()
 		std::cout << "Failed to load enigine settings.\n";
 		return;
 	}
-	
+
 	// 파일 로드
 	fseek(pFile, 0, SEEK_END);
 

@@ -202,7 +202,6 @@
     <ClInclude Include="Contents\StairGenerator.h" />
     <ClInclude Include="Level\InGameLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
-    <ClInclude Include="UI_Image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

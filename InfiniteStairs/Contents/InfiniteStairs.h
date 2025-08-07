@@ -32,6 +32,8 @@ public:
 	void RegisterLevel(Level* pLevel);
 	void ChangeLevel(Scene sceneNum);
 
+	virtual void CleanUp() override;
+
 private:
 	static InfiniteStairs*		_static_instance;
 

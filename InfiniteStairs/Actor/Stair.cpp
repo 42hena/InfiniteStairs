@@ -63,15 +63,14 @@ void Stair::Render()
 	wchar_t** ppCharacter = _pStairImage->GetCharacterPtr();
 	for (int i = 0; i < _imageHeight; ++i)
 	{
-		// Utils::SetConsolePosition(pos);
 		Engine::GetInstance().Draw(ppCharacter[i], pos);
-		//std::wcout << ppCharacter[i];
-		/*if (_dir == Direction_Left)
-			std::wcout << *_ppImage[0];
-		else
-			std::wcout << *(_ppImage[1]);*/
 		pos._y = pos._y + 1;
 	}
+}
+
+void Stair::Reset()
+{
+	;// 딱히 없어보임.
 }
 
 bool Stair::IsColliding(Collider* pOther) const

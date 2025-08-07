@@ -12,7 +12,7 @@ class Title : public Actor
 
 public:
 	Title(Character* pImage, const Vector2& rPosition);
-	~Title();
+	virtual ~Title() override;
 
 public:
 	Vector2 Position()	const { return _position; }
