@@ -132,11 +132,6 @@ void Level::ProcessAddAndDestroyActors()
 	}
 
 	for (auto*& pActor : _destroyRequestActors) {
-		/*Utils::SetConsolePosition(pActor->Position());
-
-		for (int i = 0 ; i < pActor->Width() ; ++i) { 
-			std::wcout << " ";
-		}*/
 		SafeDelete(pActor);
 	}
 	_destroyRequestActors.clear();
@@ -174,11 +169,6 @@ void Level::ProcessUIAddAndDestroyActors()
 	}
 
 	for (auto*& pActor : _destroyRequestUIActors) {
-		/*Utils::SetConsolePosition(pActor->Position());
-
-		for (int i = 0; i < pActor->Width(); ++i) {
-			std::cout << " ";
-		}*/
 		SafeDelete(pActor);
 	}
 	_destroyRequestUIActors.clear();
