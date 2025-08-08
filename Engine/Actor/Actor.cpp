@@ -72,13 +72,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 		emptyLine.push_back(' ');
 
 	// 상·하 처리
-	if (newPosition._y + _height >= Engine::GetInstance().Height()) {
-		for (int i = 0; i < _height; ++i)
-		{
-			Utils::SetConsolePosition(_position);
-			std::wcout << emptyLine;
-			++_position._y;
-		}
+	if (newPosition._y + _height >= Engine::GetInstance().Height()) {		
 		Destroy();
 		SetActive(false);
 		_position = newPosition;
@@ -86,10 +80,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 	// 좌·우 처리
 	if (newPosition._y < 0 || newPosition._x < 0 || newPosition._x >= Engine::GetInstance().Width()){
-		for (int i = 0; i < _height; ++i)
-		{
-			Utils::SetConsolePosition(_position);
-			std::wcout << emptyLine;
+		for (int i = 0; i < _height; ++i) {
 			++_position._y;
 		}
 		SetActive(false);
@@ -142,6 +133,11 @@ void Actor::QuitGame()
 
 void Actor::Destroy()
 {
+	if (Expired() == false)	{
+		return;
+	}
+
+	// 만료 플레그
 	_isExpired = true;
 
 	// 삭제 요청
