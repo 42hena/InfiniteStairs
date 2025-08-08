@@ -256,22 +256,11 @@ void InGameLevel::Reset()
 		pActor->Reset();
 	}
 
-	/*for (auto* pActor : _actors) {
-		Actor* temp = pActor->As<Player>();
-		if (temp != nullptr) {
-			static_cast<Actor*>(temp)->Reset();
-			continue;
-		}
-
-		pActor->Destroy();
-	}*/
-
 	for (int i = 0; i < 5; ++i)
 	{
 		Stair* pNewStair = _generator.InitGenerate();
 		AddActor(pNewStair);
 	}
-
 }
 
 void InGameLevel::OnMovedStairs(int x, int y)
