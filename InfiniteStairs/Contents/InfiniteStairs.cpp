@@ -53,7 +53,6 @@ void InfiniteStairs::ChangeLevel(Scene sceneNum)
 	_mainLevel->Clear();
 	_nextLevel = _levels[_levelIndex];
 	_levelChangeFlag = true;
-	//_mainLevel->Reset();
 }
 
 void InfiniteStairs::CleanUp()
