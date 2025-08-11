@@ -133,7 +133,7 @@ void Actor::QuitGame()
 
 void Actor::Destroy()
 {
-	if (Expired() == false)	{
+	if (Expired() == true)	{
 		return;
 	}
 
