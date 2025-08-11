@@ -157,6 +157,7 @@
     <ClCompile Include="UI\UI_ButtonImage.cpp" />
     <ClCompile Include="UI\UI_GameHUD.cpp" />
     <ClCompile Include="UI\UI_Item.cpp" />
+    <ClCompile Include="UI\UI_MaxScore.cpp" />
     <ClCompile Include="UI\UI_Score.cpp" />
     <ClCompile Include="UI\UI_Timer.cpp" />
     <ClCompile Include="UI\UI_Title.cpp">
@@ -188,6 +189,7 @@
     <ClInclude Include="Resources\Resources.h" />
     <ClInclude Include="UI\UI_GameHUD.h" />
     <ClInclude Include="UI\UI_Item.h" />
+    <ClInclude Include="UI\UI_MaxScore.h" />
     <ClInclude Include="UI\UI_Score.h" />
     <ClInclude Include="UI\UI_ButtonImage.h" />
     <ClInclude Include="UI\UI_Timer.h" />

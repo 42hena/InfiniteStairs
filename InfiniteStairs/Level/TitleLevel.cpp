@@ -9,6 +9,7 @@
 #include "Resources/Resources.h"
 
 #include "UI/UI_Item.h"
+#include "UI/UI_MaxScore.h"
 
 #include <iostream>
 
@@ -18,6 +19,9 @@ TitleLevel::TitleLevel()
 	Vector2 titlePosition(0, 5);
 	_UIActors.push_back(new Title(pImage, titlePosition));
 	_UIActors.push_back(new NavigationItems());
+
+	Vector2 scorePos = { 55, 20 };
+	_UIActors.push_back(new MaxScore(scorePos));
 }
 
 TitleLevel::~TitleLevel()

@@ -3,6 +3,7 @@
 
 #include "Actor/Actor.h"
 #include "Math/Vector2.h"
+#include "Contents/InfiniteStairs.h"
 
 class Score : public Actor
 {
@@ -19,6 +20,8 @@ public:
 	void OnEarnScore()
 	{
 		_score += 1;
+		if (global_score < _score)
+			global_score = _score;
 	}
 
 	void Clear() {
@@ -30,7 +33,11 @@ public:
 	}
 	wchar_t* GetScoreStr(wchar_t* buff, size_t len);
 	
-	void OnEarnScore(int score) { _score += 1; }
+	void OnEarnScore(int score) { 
+		_score += 1;
+		if (global_score < _score)
+			global_score = _score;
+	}
 
 private:
 	int		_score = 0;

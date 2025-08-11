@@ -42,4 +42,6 @@ private:
 	Scene						_levelIndex = Scene_Title;
 };
 
+extern int global_score;
+
 #endif

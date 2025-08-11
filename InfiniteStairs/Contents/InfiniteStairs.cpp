@@ -8,6 +8,8 @@
 
 
 InfiniteStairs* InfiniteStairs::_static_instance = nullptr;
+int global_score = 0;
+
 
 InfiniteStairs::InfiniteStairs()
 {
