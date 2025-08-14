@@ -8,7 +8,7 @@
 MaxScore::MaxScore(const Vector2& rPosition)
 	:Actor(L"", Color::Color_White, rPosition)
 {
-	fopen_s(&_fp, "../Score.txt", "r+");
+	fopen_s(&_fp, "Score.txt", "r+");
 	if (_fp == nullptr)
 	{
 		return;
