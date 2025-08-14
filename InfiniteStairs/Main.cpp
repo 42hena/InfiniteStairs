@@ -19,13 +19,17 @@ void Init()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc(482);
 
+	COORD bufferSize = { (SHORT)121, (SHORT)50 };
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), bufferSize);
+
+	SMALL_RECT windowSize = { 0, 0, (SHORT)(120), (SHORT)(49) };
+	BOOL ret = SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &windowSize);
+
 	char buf[200];
 	sprintf_s(buf, 200, "mode con cols=%d lines=%d", 121, 50);
 	system(buf);
 	int charMode = _setmode(_fileno(stdout), _O_U16TEXT);
 }
-
-
 
 int main()
 {
