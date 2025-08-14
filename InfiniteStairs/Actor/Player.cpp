@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Input.h"
 #include "Level/Level.h"
 #include "Level/InGameLevel.h"
@@ -6,7 +6,7 @@
 #include "Utils/Utils.h"
 #include "Contents/Character.h"
 #include <iostream>
-// ¿Ö const ¾È‰Î?(const char ** ppImage
+// ì™œ const ì•ˆëŒ?(const char ** ppImage
 
 Player::Player(Character* left, Character* right, const Vector2& rPosition, Collider* col, Direction dir)
 	:Actor(L"###", Color::Color_Blue, rPosition),
@@ -20,7 +20,7 @@ Player::Player(Character* left, Character* right, const Vector2& rPosition, Coll
 
 	_pCollider = col;
 
-	// Äİ¶óÀÌ´õ ÄÄÆ÷³ÍÆ® ÁÖÀÎ ¼³Á¤
+	// ì½œë¼ì´ë” ì»´í¬ë„ŒíŠ¸ ì£¼ì¸ ì„¤ì •
 	_pCollider->SetOwner(this);
 }
 
@@ -53,8 +53,8 @@ void Player::Tick(float deltaTime)
 			if (ll == nullptr)
 				DebugBreak();
 			ll->OnPressDown();
-			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: ¹®Á¦
-			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: ¹®Á¦
+			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: ë¬¸ì œ
+			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: ë¬¸ì œ
 		}
 	}
 	// Key Press (W)
@@ -69,8 +69,8 @@ void Player::Tick(float deltaTime)
 			if (ll == nullptr)
 				DebugBreak();
 			ll->OnPressDown();
-			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: ¹®Á¦
-			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: ¹®Á¦
+			ll->OnMovedStairs(newPosition._x, newPosition._y);	// TODO: ë¬¸ì œ
+			//ll->OnCreateStairs(newPosition._x, newPosition._y);	// TODO: ë¬¸ì œ
 		}
 	}
 }
@@ -93,7 +93,7 @@ void Player::Render()
 		for (int i = 0; i < pImage->Height(); ++i)
 		{
 			Engine::GetInstance().DrawDefault(ppCharacter[i], playerPosition, Color::Color_White);
-			// ÄÜ¼ÖÀÇ ´ÙÀ½ À§Ä¡·Î ÀÌµ¿
+			// ì½˜ì†”ì˜ ë‹¤ìŒ ìœ„ì¹˜ë¡œ ì´ë™
 			playerPosition._y = playerPosition._y + 1;
 		}
 	}
@@ -106,7 +106,7 @@ void Player::Render()
 		for (int i = 0; i < pImage->Height(); ++i)
 		{
 			Engine::GetInstance().DrawDefault(ppCharacter[i], playerPosition, Color::Color_White);
-			// ÄÜ¼ÖÀÇ ´ÙÀ½ À§Ä¡·Î ÀÌµ¿
+			// ì½˜ì†”ì˜ ë‹¤ìŒ ìœ„ì¹˜ë¡œ ì´ë™
 			playerPosition._y = playerPosition._y + 1;
 		}
 	}
@@ -118,7 +118,7 @@ void Player::Render()
 
 void Player::Reset()
 {
-	// ¹æÇâ Ã³À½À¸·Î.
+	// ë°©í–¥ ì²˜ìŒìœ¼ë¡œ.
 	_dir = Direction_Left;
 	/*for (int i = 0 ; i < 2 ; ++i)
 		_pAnim[i].Reset();*/
