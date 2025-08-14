@@ -73,6 +73,10 @@ void Input::ProcessInput()
 	CONSOLE_FONT_INFO fontInfo;
 	GetCurrentConsoleFont(hOut, FALSE, &fontInfo);
 	COORD fontSize = GetConsoleFontSize(hOut, fontInfo.nFont);
+	if (fontSize.X == 0)
+		fontSize.X = 8;
+	if (fontSize.Y == 0)
+		fontSize.Y = 16;
 
 	_mouseStates._mousePosition.X = static_cast<SHORT>(p.x / fontSize.X);
 	_mouseStates._mousePosition.Y = static_cast<SHORT>(p.y / fontSize.Y);
